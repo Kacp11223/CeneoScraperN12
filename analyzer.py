@@ -2,6 +2,7 @@ import os
 import pandas as pd
 from matplotlib import pyplot as plt
 import numpy as np
+import json
 
 print(*list(map(lambda x: x.split(".")[0], os.listdir("./opinions"))), sep="\n")
 product_code = input("Podaj kod produktu: ")
@@ -31,7 +32,7 @@ score.plot.bar()
 plt.savefig(f"./plots/{product_code}_score.png")
 plt.close()
 
-recomendation = opinions.recommendation.value_counts(dropna=False)
+recommendation = opinions.recommendation.value_counts(dropna=False)
 print(recommendation)
 recommendation.plot.pie()
 plt.savefig(f"./plots/{product_code}_recommendation.png")
@@ -42,5 +43,5 @@ if not os.path.exists("./stats"):
 
 stats["score"] = score.to_dict()
 stats[recommendation] = recommendation.to_dict()
-with open(f"./stats/{product_code}.json", "w", encoding="utf-8") as if:
+with open(f"./stats/{product_code}.json", "w", encoding="utf-8") as jf:
     json.dump(stats, jf, indent=4, ensure_ascii=False)
